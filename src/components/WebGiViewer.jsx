@@ -16,9 +16,7 @@ import {
   SSAOPlugin,
   BloomPlugin,
   GammaCorrectionPlugin,
-  // addBasePlugins,
   mobileAndTabletCheck,
-  CanvasSnipperPlugin,
 } from "webgi";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -48,21 +46,24 @@ const WebGiViewer = forwardRef((props, ref) => {
         onUpdate: () => {
           viewRef.setDirty();
           cameraRef.positionTargetUpdated(true);
-        }
-      })
+        },
+      });
       gsap.to(targetRef, { x: 0.11, y: 0.0, z: 0.0, duration: 2 });
 
       viewRef.scene.activeCamera.setCameraOptions({
         controlsEnabled: true,
       });
-    }
+    },
   }));
 
-  const memoizeScrollAnimation = useCallback((position, target, isMobile, onUpdate) => {
-    if (position && target && onUpdate) {
-      scrollAnimation(position, target, isMobile, onUpdate);
-    }
-  }, []);
+  const memoizeScrollAnimation = useCallback(
+    (position, target, isMobile, onUpdate) => {
+      if (position && target && onUpdate) {
+        scrollAnimation(position, target, isMobile, onUpdate);
+      }
+    },
+    []
+  );
 
   const setupViewer = useCallback(async () => {
     const viewer = new ViewerApp({
@@ -83,7 +84,6 @@ const WebGiViewer = forwardRef((props, ref) => {
 
     const manager = await viewer.addPlugin(AssetManagerPlugin);
 
-
     await viewer.addPlugin(GBufferPlugin);
     await viewer.addPlugin(new ProgressivePlugin(32));
     await viewer.addPlugin(new TonemapPlugin(true));
@@ -92,13 +92,7 @@ const WebGiViewer = forwardRef((props, ref) => {
     await viewer.addPlugin(SSAOPlugin);
     await viewer.addPlugin(BloomPlugin);
 
-    // await viewer.addPlugin(AssetManagerBasicPopupPlugin);
-    // await addBasePlugins(viewer);
-
-    // await viewer.addPlugin(CanvasSnipperPlugin);
-
     viewer.renderer.refreshPipeline();
-
 
     await manager.addFromPath("scene-black.glb");
 
@@ -129,7 +123,6 @@ const WebGiViewer = forwardRef((props, ref) => {
     });
 
     memoizeScrollAnimation(position, target, isMobileOrTablet, onUpdate);
-
   }, []);
 
   useEffect(() => {
@@ -156,8 +149,8 @@ const WebGiViewer = forwardRef((props, ref) => {
       onUpdate: () => {
         viewRef.setDirty();
         cameraRef.positionTargetUpdated(true);
-      }
-    })
+      },
+    });
     gsap.to(targetRef, {
       x: !isMobile ? -0.55 : -1.62,
       y: !isMobile ? 0.32 : 0.02,
@@ -169,19 +162,19 @@ const WebGiViewer = forwardRef((props, ref) => {
         scrub: 1.5,
         immediateRender: false,
       },
-    })
-  }, [canvasContainerRef, viewRef, postionRef, cameraRef, targetRef])
+    });
+  }, [canvasContainerRef, viewRef, postionRef, cameraRef, targetRef]);
 
   return (
     <div ref={canvasContainerRef} id="webgi-canvas-container">
       <canvas id="webgi-canvas" ref={canvasRef}></canvas>
-      {
-        previewMode && <button onClick={handleExit} className="button">Go Back</button>
-      }
+      {previewMode && (
+        <button onClick={handleExit} className="button">
+          Go Back
+        </button>
+      )}
     </div>
   );
-
-})
-
+});
 
 export default WebGiViewer;

@@ -36,7 +36,6 @@ export const scrollAnimation = (position, target, isMobile, onUpdate) => {
             scrub: 1.5,
             immediateRender: false,
         },
-        // onUpdate
     }).to(".sound-section .content", {
         opacity: 1,
         scrollTrigger: {
@@ -46,7 +45,6 @@ export const scrollAnimation = (position, target, isMobile, onUpdate) => {
             scrub: 1.5,
             immediateRender: false,
         },
-        // onUpdate
     }).to(position, {
         x: !isMobile ? 1.56 : 9.36,
         y: !isMobile ? 5.0 : 10.95,

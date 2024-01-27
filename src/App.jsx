@@ -7,14 +7,12 @@ import WebGiViewer from "./components/WebGiViewer";
 import Loader from "./components/Loader";
 
 function App() {
-
   const webGiViewerRef = useRef();
   const contentRef = useRef();
 
   const handlePreview = () => {
     webGiViewerRef.current.triggerPreview();
-  }
-
+  };
 
   return (
     <div className="App">
